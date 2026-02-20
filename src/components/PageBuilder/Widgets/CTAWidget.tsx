@@ -46,7 +46,7 @@ export default function CTAWidget({ section }: CTAWidgetProps) {
         <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
           <a
             href={primaryLink || '#'}
-            className="btn btn-primary font-semibold whitespace-nowrap"
+            className="btn btn-primary font-semibold whitespace-nowrap [&]:!rounded-none [&]:!p-0"
             style={primaryButtonStyle}
             onMouseOver={handlePrimaryMouseOver}
             onMouseOut={handlePrimaryMouseOut}
@@ -84,7 +84,7 @@ export default function CTAWidget({ section }: CTAWidgetProps) {
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
         <a
           href={primaryLink || '#'}
-          className="btn btn-primary font-semibold"
+          className="btn btn-primary font-semibold [&]:!rounded-none [&]:!p-0"
           style={primaryButtonStyle}
           onMouseOver={handlePrimaryMouseOver}
           onMouseOut={handlePrimaryMouseOut}
@@ -122,7 +122,7 @@ export default function CTAWidget({ section }: CTAWidgetProps) {
         <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
           <a
             href={primaryLink || '#'}
-            className="btn btn-primary font-semibold"
+            className="btn btn-primary font-semibold [&]:!rounded-none [&]:!p-0"
             style={primaryButtonStyle}
             onMouseOver={handlePrimaryMouseOver}
             onMouseOut={handlePrimaryMouseOut}

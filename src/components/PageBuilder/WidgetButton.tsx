@@ -23,7 +23,7 @@ export default function WidgetButton({
   const buttonStyles = getButtonStyles(section);
   const buttonHoverBg = section.design?.colors?.buttonBackgroundHover;
 
-  const baseClasses = 'btn font-semibold';
+  const baseClasses = 'btn font-semibold [&]:!rounded-none [&]:!p-0';
   const variantClasses = {
     primary: 'btn-primary',
     secondary: 'btn-secondary',

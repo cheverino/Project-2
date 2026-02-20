@@ -2,13 +2,23 @@ import { PageBuilderSection } from './pageBuilderTypes';
 
 export function getButtonStyles(section: PageBuilderSection) {
   const design = section.design;
+  const styles: any = {};
 
-  return {
-    backgroundColor: design.colors?.buttonBackground,
-    color: design.colors?.buttonText,
-    borderRadius: design.button?.borderRadius || '0.75rem',
-    padding: design.button?.padding || '0.75rem 2rem',
-  };
+  if (design.colors?.buttonBackground) {
+    styles.backgroundColor = design.colors.buttonBackground;
+  }
+  if (design.colors?.buttonText) {
+    styles.color = design.colors.buttonText;
+  }
+
+  // Use important to override Tailwind classes
+  const borderRadius = design.button?.borderRadius || '12px';
+  const padding = design.button?.padding || '12px 32px';
+
+  styles.borderRadius = borderRadius;
+  styles.padding = padding;
+
+  return styles;
 }
 
 export function getButtonHoverStyles(section: PageBuilderSection) {

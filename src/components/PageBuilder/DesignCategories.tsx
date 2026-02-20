@@ -97,16 +97,18 @@ interface SelectFieldProps {
   value: string;
   onChange: (value: string) => void;
   options: Array<{ value: string; label: string }>;
+  disabled?: boolean;
 }
 
-function SelectField({ label, value, onChange, options }: SelectFieldProps) {
+function SelectField({ label, value, onChange, options, disabled = false }: SelectFieldProps) {
   return (
-    <div>
+    <div className={disabled ? 'opacity-40' : ''}>
       <label className="block text-xs text-gray-600 mb-1">{label}</label>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent bg-white"
+        disabled={disabled}
+        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent bg-white disabled:bg-gray-100 disabled:cursor-not-allowed"
       >
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>
@@ -114,6 +116,42 @@ function SelectField({ label, value, onChange, options }: SelectFieldProps) {
           </option>
         ))}
       </select>
+    </div>
+  );
+}
+
+interface SliderFieldProps {
+  label: string;
+  value: number;
+  onChange: (value: number) => void;
+  min: number;
+  max: number;
+  step?: number;
+  unit?: string;
+  disabled?: boolean;
+}
+
+function SliderField({ label, value, onChange, min, max, step = 1, unit = 'px', disabled = false }: SliderFieldProps) {
+  return (
+    <div className={disabled ? 'opacity-40' : ''}>
+      <div className="flex items-center justify-between mb-1">
+        <label className="block text-xs text-gray-600">{label}</label>
+        <span className="text-xs font-medium text-gray-900">{value}{unit}</span>
+      </div>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        disabled={disabled}
+        className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-black disabled:cursor-not-allowed"
+      />
+      <div className="flex justify-between text-xs text-gray-400 mt-1">
+        <span>{min}{unit}</span>
+        <span>{max}{unit}</span>
+      </div>
     </div>
   );
 }
@@ -157,18 +195,47 @@ export default function DesignCategories({ section, updateDesign }: DesignCatego
           value={section.design.colors?.buttonBackgroundHover || '#1F2937'}
           onChange={(value) => updateDesign('colors', 'buttonBackgroundHover', value)}
         />
-        <TextField
+        <SliderField
           label="Rayon des coins"
-          value={section.design.button?.borderRadius || '8px'}
-          onChange={(value) => updateDesign('button', 'borderRadius', value)}
-          placeholder="ex: 8px, 999px"
+          value={parseInt(section.design.button?.borderRadius || '12') || 12}
+          onChange={(value) => updateDesign('button', 'borderRadius', `${value}px`)}
+          min={0}
+          max={50}
+          step={1}
+          unit="px"
         />
-        <TextField
-          label="Padding"
-          value={section.design.button?.padding || '12px 24px'}
-          onChange={(value) => updateDesign('button', 'padding', value)}
-          placeholder="ex: 12px 24px"
-        />
+        <div>
+          <label className="block text-xs text-gray-600 mb-1">Padding horizontal</label>
+          <SliderField
+            label=""
+            value={parseInt((section.design.button?.padding || '12px 32px').split(' ')[1] || '32') || 32}
+            onChange={(value) => {
+              const currentPadding = section.design.button?.padding || '12px 32px';
+              const verticalPadding = currentPadding.split(' ')[0] || '12px';
+              updateDesign('button', 'padding', `${verticalPadding} ${value}px`);
+            }}
+            min={8}
+            max={64}
+            step={4}
+            unit="px"
+          />
+        </div>
+        <div>
+          <label className="block text-xs text-gray-600 mb-1">Padding vertical</label>
+          <SliderField
+            label=""
+            value={parseInt((section.design.button?.padding || '12px 32px').split(' ')[0] || '12') || 12}
+            onChange={(value) => {
+              const currentPadding = section.design.button?.padding || '12px 32px';
+              const horizontalPadding = currentPadding.split(' ')[1] || '32px';
+              updateDesign('button', 'padding', `${value}px ${horizontalPadding}`);
+            }}
+            min={4}
+            max={32}
+            step={2}
+            unit="px"
+          />
+        </div>
       </Category>
 
       <Category title="Contours" defaultOpen={false} disabled={!capabilities.borders}>
