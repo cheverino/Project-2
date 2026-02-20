@@ -113,7 +113,7 @@ function SelectField({ label, value, onChange, options }: SelectFieldProps) {
 export default function DesignCategories({ section, updateDesign }: DesignCategoriesProps) {
   return (
     <div className="space-y-4">
-      <Category title="Couleurs" defaultOpen={true}>
+      <Category title="Couleurs" defaultOpen={false}>
         <ColorField
           label="Couleur du titre"
           value={section.design.typography?.headingColor || '#111827'}
@@ -131,7 +131,7 @@ export default function DesignCategories({ section, updateDesign }: DesignCatego
         />
       </Category>
 
-      <Category title="Boutons" defaultOpen={true}>
+      <Category title="Boutons" defaultOpen={false}>
         <ColorField
           label="Couleur du fond"
           value={section.design.colors?.buttonBackground || '#000000'}
@@ -219,7 +219,7 @@ export default function DesignCategories({ section, updateDesign }: DesignCatego
         />
       </Category>
 
-      <Category title="Arrière-plan" defaultOpen={true}>
+      <Category title="Arrière-plan" defaultOpen={false}>
         <SelectField
           label="Type"
           value={section.design.background?.type || 'color'}
@@ -281,7 +281,7 @@ export default function DesignCategories({ section, updateDesign }: DesignCatego
         )}
       </Category>
 
-      <Category title="Espacement" defaultOpen={true}>
+      <Category title="Espacement" defaultOpen={false}>
         <TextField
           label="Padding haut"
           value={section.design.spacing?.paddingTop || '0px'}
