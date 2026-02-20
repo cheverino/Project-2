@@ -42,7 +42,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       setLoading(true);
       setError(null);
       const { data, error: fetchError } = await supabase
-        .from('themes')
+        .from('page_themes')
         .select('*')
         .order('is_default', { ascending: false })
         .order('created_at', { ascending: true });
@@ -93,7 +93,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       }));
 
       const { data, error: insertError } = await supabase
-        .from('themes')
+        .from('page_themes')
         .insert(themesToInsert)
         .select();
 
@@ -121,7 +121,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
       if (!user) throw new Error('User not authenticated');
 
       const { data, error } = await supabase
-        .from('themes')
+        .from('page_themes')
         .insert([{
           ...themeData,
           user_id: user.id,
@@ -142,7 +142,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const updateTheme = async (id: string, updates: Partial<Theme>) => {
     try {
       const { error } = await supabase
-        .from('themes')
+        .from('page_themes')
         .update({
           ...updates,
           updated_at: new Date().toISOString(),
@@ -167,7 +167,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const deleteTheme = async (id: string) => {
     try {
       const { error } = await supabase
-        .from('themes')
+        .from('page_themes')
         .delete()
         .eq('id', id);
 
