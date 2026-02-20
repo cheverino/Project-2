@@ -8,10 +8,14 @@ export interface PageBuilderSection {
     background: {
       type: 'color' | 'gradient' | 'image' | 'video';
       value: string;
+      size?: string;
+      position?: string;
     };
     spacing: {
       paddingTop: string;
       paddingBottom: string;
+      paddingLeft: string;
+      paddingRight: string;
       marginTop: string;
       marginBottom: string;
     };
@@ -21,16 +25,63 @@ export interface PageBuilderSection {
       lineHeight?: string;
       headingColor?: string;
       textColor?: string;
+      headingSize?: string;
+      headingWeight?: string;
     };
     colors?: {
       primary?: string;
       secondary?: string;
       accent?: string;
+      accentColor?: string;
       buttonBackground?: string;
       buttonText?: string;
       buttonBackgroundHover?: string;
       iconBackground?: string;
       iconColor?: string;
+    };
+    button?: {
+      borderRadius?: string;
+      padding?: string;
+    };
+    border?: {
+      width?: string;
+      color?: string;
+      style?: string;
+      radius?: string;
+    };
+    shadow?: {
+      size?: string;
+      custom?: string;
+      color?: string;
+    };
+    effects?: {
+      opacity?: string;
+      transform?: string;
+      filter?: string;
+      transition?: string;
+      blur?: string;
+      brightness?: string;
+      contrast?: string;
+      saturate?: string;
+      grayscale?: string;
+      sepia?: string;
+      hueRotate?: string;
+      parallax?: boolean;
+      animation?: boolean;
+      animationType?: string;
+    };
+    layout?: {
+      maxWidth?: string;
+      alignment?: string;
+      contentPosition?: string;
+      contentAlignment?: string;
+      minHeight?: string;
+    };
+    overlay?: {
+      enabled?: boolean;
+      color?: string;
+      opacity?: string;
+      gradient?: string;
     };
   };
   themeConfig?: {

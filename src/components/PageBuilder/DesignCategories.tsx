@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { PageBuilderSection } from '../../lib/pageBuilderTypes';
+import { getWidgetCapabilities } from '../../lib/widgetDesignCapabilities';
 
 interface DesignCategoriesProps {
   section: PageBuilderSection;
@@ -11,16 +12,18 @@ interface CategoryProps {
   title: string;
   children: React.ReactNode;
   defaultOpen?: boolean;
+  disabled?: boolean;
 }
 
-function Category({ title, children, defaultOpen = true }: CategoryProps) {
+function Category({ title, children, defaultOpen = true, disabled = false }: CategoryProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
 
   return (
-    <div className="border border-gray-200 rounded-lg overflow-hidden">
+    <div className={`border border-gray-200 rounded-lg overflow-hidden ${disabled ? 'opacity-40' : ''}`}>
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors"
+        onClick={() => !disabled && setIsOpen(!isOpen)}
+        disabled={disabled}
+        className={`w-full flex items-center justify-between px-4 py-3 bg-gray-50 transition-colors ${disabled ? 'cursor-not-allowed' : 'hover:bg-gray-100'}`}
       >
         <span className="text-sm font-semibold text-gray-900">{title}</span>
         {isOpen ? (
@@ -29,7 +32,7 @@ function Category({ title, children, defaultOpen = true }: CategoryProps) {
           <ChevronRight className="w-4 h-4 text-gray-500" />
         )}
       </button>
-      {isOpen && <div className="p-4 space-y-3 bg-white">{children}</div>}
+      {isOpen && !disabled && <div className="p-4 space-y-3 bg-white">{children}</div>}
     </div>
   );
 }
@@ -38,24 +41,27 @@ interface ColorFieldProps {
   label: string;
   value: string;
   onChange: (value: string) => void;
+  disabled?: boolean;
 }
 
-function ColorField({ label, value, onChange }: ColorFieldProps) {
+function ColorField({ label, value, onChange, disabled = false }: ColorFieldProps) {
   return (
-    <div>
+    <div className={disabled ? 'opacity-40' : ''}>
       <label className="block text-xs text-gray-600 mb-1">{label}</label>
       <div className="flex items-center space-x-2">
         <input
           type="color"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-12 h-10 rounded border border-gray-300 cursor-pointer"
+          disabled={disabled}
+          className={`w-12 h-10 rounded border border-gray-300 ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}`}
         />
         <input
           type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent"
+          disabled={disabled}
+          className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
         />
       </div>
     </div>
@@ -67,17 +73,19 @@ interface TextFieldProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  disabled?: boolean;
 }
 
-function TextField({ label, value, onChange, placeholder }: TextFieldProps) {
+function TextField({ label, value, onChange, placeholder, disabled = false }: TextFieldProps) {
   return (
-    <div>
+    <div className={disabled ? 'opacity-40' : ''}>
       <label className="block text-xs text-gray-600 mb-1">{label}</label>
       <input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent"
+        disabled={disabled}
+        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
         placeholder={placeholder}
       />
     </div>
@@ -111,9 +119,11 @@ function SelectField({ label, value, onChange, options }: SelectFieldProps) {
 }
 
 export default function DesignCategories({ section, updateDesign }: DesignCategoriesProps) {
+  const capabilities = getWidgetCapabilities(section.type);
+
   return (
     <div className="space-y-4">
-      <Category title="Couleurs" defaultOpen={false}>
+      <Category title="Couleurs" defaultOpen={false} disabled={!capabilities.colors}>
         <ColorField
           label="Couleur du titre"
           value={section.design.typography?.headingColor || '#111827'}
@@ -131,7 +141,7 @@ export default function DesignCategories({ section, updateDesign }: DesignCatego
         />
       </Category>
 
-      <Category title="Boutons" defaultOpen={false}>
+      <Category title="Boutons" defaultOpen={false} disabled={!capabilities.buttons}>
         <ColorField
           label="Couleur du fond"
           value={section.design.colors?.buttonBackground || '#000000'}
@@ -161,7 +171,7 @@ export default function DesignCategories({ section, updateDesign }: DesignCatego
         />
       </Category>
 
-      <Category title="Contours" defaultOpen={false}>
+      <Category title="Contours" defaultOpen={false} disabled={!capabilities.borders}>
         <TextField
           label="Largeur du contour"
           value={section.design.border?.width || '0px'}
@@ -192,7 +202,7 @@ export default function DesignCategories({ section, updateDesign }: DesignCatego
         />
       </Category>
 
-      <Category title="Ombres" defaultOpen={false}>
+      <Category title="Ombres" defaultOpen={false} disabled={!capabilities.shadows}>
         <SelectField
           label="Taille de l'ombre"
           value={section.design.shadow?.size || 'none'}
@@ -219,7 +229,7 @@ export default function DesignCategories({ section, updateDesign }: DesignCatego
         />
       </Category>
 
-      <Category title="Arrière-plan" defaultOpen={false}>
+      <Category title="Arrière-plan" defaultOpen={false} disabled={!capabilities.background}>
         <SelectField
           label="Type"
           value={section.design.background?.type || 'color'}
@@ -281,7 +291,7 @@ export default function DesignCategories({ section, updateDesign }: DesignCatego
         )}
       </Category>
 
-      <Category title="Espacement" defaultOpen={false}>
+      <Category title="Espacement" defaultOpen={false} disabled={!capabilities.spacing}>
         <TextField
           label="Padding haut"
           value={section.design.spacing?.paddingTop || '0px'}
@@ -320,7 +330,7 @@ export default function DesignCategories({ section, updateDesign }: DesignCatego
         />
       </Category>
 
-      <Category title="Typographie" defaultOpen={false}>
+      <Category title="Typographie" defaultOpen={false} disabled={!capabilities.typography}>
         <TextField
           label="Famille de police"
           value={section.design.typography?.fontFamily || 'inherit'}
@@ -361,7 +371,7 @@ export default function DesignCategories({ section, updateDesign }: DesignCatego
         />
       </Category>
 
-      <Category title="Effets" defaultOpen={false}>
+      <Category title="Effets" defaultOpen={false} disabled={!capabilities.effects}>
         <TextField
           label="Opacité"
           value={section.design.effects?.opacity || '1'}
@@ -388,7 +398,7 @@ export default function DesignCategories({ section, updateDesign }: DesignCatego
         />
       </Category>
 
-      <Category title="Mise en page" defaultOpen={false}>
+      <Category title="Mise en page" defaultOpen={false} disabled={!capabilities.layout}>
         <SelectField
           label="Largeur maximale"
           value={section.design.layout?.maxWidth || '1280px'}

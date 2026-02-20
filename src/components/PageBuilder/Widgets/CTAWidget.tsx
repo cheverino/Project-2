@@ -1,4 +1,5 @@
 import { PageBuilderSection } from '../../../lib/pageBuilderTypes';
+import { getButtonStyles, getButtonHoverStyles, getHeadingStyles, getTextStyles } from '../../../lib/designHelpers';
 
 interface CTAWidgetProps {
   section: PageBuilderSection;
@@ -8,30 +9,22 @@ interface CTAWidgetProps {
 export default function CTAWidget({ section }: CTAWidgetProps) {
   const { headline, description, primaryCta, primaryLink, secondaryCta, secondaryLink } = section.content;
 
-  const headingColor = section.design?.typography?.headingColor || undefined;
-  const textColor = section.design?.typography?.textColor || undefined;
-  const buttonBg = section.design?.colors?.buttonBackground || undefined;
-  const buttonText = section.design?.colors?.buttonText || undefined;
-  const buttonHover = section.design?.colors?.buttonBackgroundHover || undefined;
+  const headingStyle = getHeadingStyles(section);
+  const textStyle = getTextStyles(section);
+  const primaryButtonStyle = getButtonStyles(section);
+  const buttonHoverBg = section.design?.colors?.buttonBackgroundHover;
 
-  const headingStyle = headingColor ? { color: headingColor } : undefined;
-  const textStyle = textColor ? { color: textColor } : undefined;
-  const primaryButtonStyle =
-    buttonBg || buttonText
-      ? { backgroundColor: buttonBg, color: buttonText }
-      : undefined;
-
-  const handlePrimaryMouseOver = buttonHover
+  const handlePrimaryMouseOver = buttonHoverBg
     ? (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.currentTarget.style.backgroundColor = buttonHover;
+        e.currentTarget.style.backgroundColor = buttonHoverBg;
       }
     : undefined;
 
-  const handlePrimaryMouseOut = buttonBg
-    ? (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.currentTarget.style.backgroundColor = buttonBg;
-      }
-    : undefined;
+  const handlePrimaryMouseOut = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (primaryButtonStyle.backgroundColor) {
+      e.currentTarget.style.backgroundColor = primaryButtonStyle.backgroundColor;
+    }
+  };
 
   const renderBanner = () => (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -53,7 +46,7 @@ export default function CTAWidget({ section }: CTAWidgetProps) {
         <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
           <a
             href={primaryLink || '#'}
-            className="btn btn-primary px-6 sm:px-8 rounded-xl font-semibold whitespace-nowrap"
+            className="btn btn-primary font-semibold whitespace-nowrap"
             style={primaryButtonStyle}
             onMouseOver={handlePrimaryMouseOver}
             onMouseOut={handlePrimaryMouseOut}
@@ -91,7 +84,7 @@ export default function CTAWidget({ section }: CTAWidgetProps) {
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
         <a
           href={primaryLink || '#'}
-          className="btn btn-primary px-6 sm:px-8 sm:py-4 rounded-xl font-semibold"
+          className="btn btn-primary font-semibold"
           style={primaryButtonStyle}
           onMouseOver={handlePrimaryMouseOver}
           onMouseOut={handlePrimaryMouseOut}
@@ -101,8 +94,8 @@ export default function CTAWidget({ section }: CTAWidgetProps) {
         {secondaryCta && (
           <a
             href={secondaryLink || '#'}
-            className="btn btn-outline border-2 px-6 sm:px-8 sm:py-4 rounded-xl font-semibold text-neutral-content border-neutral-content"
-            style={headingColor ? { borderColor: headingColor, color: headingColor } : undefined}
+            className="btn btn-outline border-2 font-semibold text-neutral-content border-neutral-content"
+            style={{ ...headingStyle, borderColor: headingStyle.color, borderRadius: primaryButtonStyle.borderRadius }}
           >
             {secondaryCta}
           </a>
@@ -129,7 +122,7 @@ export default function CTAWidget({ section }: CTAWidgetProps) {
         <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
           <a
             href={primaryLink || '#'}
-            className="btn btn-primary px-6 sm:px-8 sm:py-4 rounded-xl font-semibold"
+            className="btn btn-primary font-semibold"
             style={primaryButtonStyle}
             onMouseOver={handlePrimaryMouseOver}
             onMouseOut={handlePrimaryMouseOut}

@@ -4,6 +4,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { GripVertical, Trash2, Copy, Edit3 } from 'lucide-react';
 import { PageBuilderSection } from '../../lib/pageBuilderTypes';
 import { getWidgetThemeProps } from '../../lib/widgetThemeHelper';
+import { getSectionContainerStyles, getTypographyStyles } from '../../lib/designHelpers';
 import HeaderWidget from './Widgets/HeaderWidget';
 import HeroWidget from './Widgets/HeroWidget';
 import FeaturesWidget from './Widgets/FeaturesWidget';
@@ -274,11 +275,8 @@ export default function SectionRenderer({
         <div
           data-theme={getWidgetThemeProps(section).dataTheme}
           style={{
-            backgroundColor: section.design.background.type === 'color' ? section.design.background.value : undefined,
-            paddingTop: section.design.spacing.paddingTop,
-            paddingBottom: section.design.spacing.paddingBottom,
-            marginTop: section.design.spacing.marginTop,
-            marginBottom: section.design.spacing.marginBottom,
+            ...getSectionContainerStyles(section),
+            ...getTypographyStyles(section),
             ...getWidgetThemeProps(section).customStyles,
           }}
         >
