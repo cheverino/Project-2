@@ -198,10 +198,14 @@ export default function DesignCategories({ section, updateDesign }: DesignCatego
         <SliderField
           label="Rayon des coins"
           value={(() => {
-            const radius = section.design.button?.borderRadius || '12px';
-            return parseInt(radius.replace('px', '')) || 12;
+            const radius = section.design.button?.borderRadius;
+            if (typeof radius === 'number') return radius;
+            if (typeof radius === 'string') return parseInt(radius) || 12;
+            return 12;
           })()}
-          onChange={(value) => updateDesign('button', 'borderRadius', `${value}px`)}
+          onChange={(value) => {
+            updateDesign('button', 'borderRadius', value);
+          }}
           min={0}
           max={50}
           step={1}
@@ -212,14 +216,13 @@ export default function DesignCategories({ section, updateDesign }: DesignCatego
           <SliderField
             label=""
             value={(() => {
-              const padding = section.design.button?.padding || '12px 32px';
-              const parts = padding.split(' ');
-              return parseInt((parts[1] || '32px').replace('px', '')) || 32;
+              const paddingH = section.design.button?.paddingHorizontal;
+              if (typeof paddingH === 'number') return paddingH;
+              if (typeof paddingH === 'string') return parseInt(paddingH) || 32;
+              return 32;
             })()}
             onChange={(value) => {
-              const currentPadding = section.design.button?.padding || '12px 32px';
-              const verticalPadding = currentPadding.split(' ')[0] || '12px';
-              updateDesign('button', 'padding', `${verticalPadding} ${value}px`);
+              updateDesign('button', 'paddingHorizontal', value);
             }}
             min={8}
             max={64}
@@ -232,14 +235,13 @@ export default function DesignCategories({ section, updateDesign }: DesignCatego
           <SliderField
             label=""
             value={(() => {
-              const padding = section.design.button?.padding || '12px 32px';
-              const parts = padding.split(' ');
-              return parseInt((parts[0] || '12px').replace('px', '')) || 12;
+              const paddingV = section.design.button?.paddingVertical;
+              if (typeof paddingV === 'number') return paddingV;
+              if (typeof paddingV === 'string') return parseInt(paddingV) || 12;
+              return 12;
             })()}
             onChange={(value) => {
-              const currentPadding = section.design.button?.padding || '12px 32px';
-              const horizontalPadding = currentPadding.split(' ')[1] || '32px';
-              updateDesign('button', 'padding', `${value}px ${horizontalPadding}`);
+              updateDesign('button', 'paddingVertical', value);
             }}
             min={4}
             max={32}

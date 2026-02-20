@@ -2,7 +2,7 @@ import { PageBuilderSection } from './pageBuilderTypes';
 
 export function getButtonStyles(section: PageBuilderSection) {
   const design = section.design;
-  const styles: any = {};
+  const styles: React.CSSProperties = {};
 
   if (design.colors?.buttonBackground) {
     styles.backgroundColor = design.colors.buttonBackground;
@@ -11,12 +11,31 @@ export function getButtonStyles(section: PageBuilderSection) {
     styles.color = design.colors.buttonText;
   }
 
-  // Use important to override Tailwind classes
-  const borderRadius = design.button?.borderRadius || '12px';
-  const padding = design.button?.padding || '12px 32px';
+  // Handle borderRadius - support both number and string
+  const borderRadius = design.button?.borderRadius;
+  if (borderRadius !== undefined && borderRadius !== null) {
+    styles.borderRadius = typeof borderRadius === 'number' ? `${borderRadius}px` : borderRadius;
+  } else {
+    styles.borderRadius = '12px';
+  }
 
-  styles.borderRadius = borderRadius;
-  styles.padding = padding;
+  // Handle padding - support both old "12px 32px" format and new separate values
+  const paddingV = design.button?.paddingVertical;
+  const paddingH = design.button?.paddingHorizontal;
+  const oldPadding = design.button?.padding;
+
+  if (paddingV !== undefined && paddingH !== undefined) {
+    // New format with separate values
+    const pv = typeof paddingV === 'number' ? `${paddingV}px` : paddingV;
+    const ph = typeof paddingH === 'number' ? `${paddingH}px` : paddingH;
+    styles.padding = `${pv} ${ph}`;
+  } else if (oldPadding !== undefined) {
+    // Old format "12px 32px"
+    styles.padding = oldPadding;
+  } else {
+    // Default padding
+    styles.padding = '12px 32px';
+  }
 
   return styles;
 }
