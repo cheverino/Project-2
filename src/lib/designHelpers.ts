@@ -16,7 +16,7 @@ export function getButtonStyles(section: PageBuilderSection) {
   if (borderRadius !== undefined && borderRadius !== null) {
     styles.borderRadius = typeof borderRadius === 'number' ? `${borderRadius}px` : borderRadius;
   } else {
-    styles.borderRadius = '12px';
+    styles.borderRadius = '50px';
   }
 
   // Handle padding - support both old "12px 32px" format and new separate values
