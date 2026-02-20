@@ -1,4 +1,5 @@
 import { PageBuilderSection } from '../../../lib/pageBuilderTypes';
+import { getButtonStyles } from '../../../lib/designHelpers';
 
 interface HeroWidgetProps {
   section: PageBuilderSection;
@@ -47,13 +48,7 @@ export default function HeroWidget({ section }: HeroWidgetProps) {
     ? { color: textColor }
     : undefined;
 
-  const buttonStyle: React.CSSProperties | undefined =
-    buttonBg || buttonText
-      ? {
-          ...(buttonBg ? { backgroundColor: buttonBg } : {}),
-          ...(buttonText ? { color: buttonText } : {}),
-        }
-      : undefined;
+  const buttonStyle: React.CSSProperties = getButtonStyles(section);
 
   const handleButtonHover = buttonBg && buttonHover
     ? {
@@ -156,7 +151,7 @@ export default function HeroWidget({ section }: HeroWidgetProps) {
           </h2>
           <a
             href={ctaLink || '#'}
-            className="btn btn-primary inline-block px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg transform hover:scale-105"
+            className="btn btn-primary inline-block [&]:!rounded-none [&]:!p-0 font-semibold transition-all duration-300 hover:shadow-lg transform hover:scale-105"
             style={buttonStyle}
             {...handleButtonHover}
           >
@@ -197,7 +192,7 @@ export default function HeroWidget({ section }: HeroWidgetProps) {
       </h2>
       <a
         href={ctaLink || '#'}
-        className="btn btn-primary inline-block px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg transform hover:scale-105"
+        className="btn btn-primary inline-block [&]:!rounded-none [&]:!p-0 font-semibold transition-all duration-300 hover:shadow-lg transform hover:scale-105"
         style={buttonStyle}
         {...handleButtonHover}
       >
@@ -307,7 +302,7 @@ export default function HeroWidget({ section }: HeroWidgetProps) {
             </h2>
             <a
               href={ctaLink || '#'}
-              className="btn btn-primary inline-block px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:shadow-2xl transform hover:scale-105"
+              className="btn btn-primary inline-block [&]:!rounded-none [&]:!p-0 font-semibold transition-all duration-300 hover:shadow-2xl transform hover:scale-105"
               style={buttonStyle}
               {...handleButtonHover}
             >

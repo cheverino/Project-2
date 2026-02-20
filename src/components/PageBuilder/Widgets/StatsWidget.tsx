@@ -1,5 +1,6 @@
 import { TrendingUp } from 'lucide-react';
 import { PageBuilderSection } from '../../../lib/pageBuilderTypes';
+import { getButtonStyles } from '../../../lib/designHelpers';
 
 interface StatsWidgetProps {
   section: PageBuilderSection;
@@ -16,6 +17,7 @@ export default function StatsWidget({ section }: StatsWidgetProps) {
   const headingStyle = headingColor ? { color: headingColor } : undefined;
   const textStyle = textColor ? { color: textColor } : undefined;
   const accentStyle = accentColor ? { color: accentColor } : undefined;
+  const buttonStyle: React.CSSProperties = getButtonStyles(section);
 
   const defaultStats = [
     { number: '10K+', label: 'Active Users', suffix: '+', icon: 'users' },
@@ -189,8 +191,8 @@ export default function StatsWidget({ section }: StatsWidgetProps) {
             </p>
           )}
           <button
-            className="btn btn-primary px-8 py-3 rounded-xl font-semibold transition-all hover:shadow-lg"
-            style={accentColor ? { backgroundColor: accentColor, color: '#ffffff' } : undefined}
+            className="btn btn-primary [&]:!rounded-none [&]:!p-0 font-semibold transition-all hover:shadow-lg"
+            style={buttonStyle}
           >
             Learn More
           </button>

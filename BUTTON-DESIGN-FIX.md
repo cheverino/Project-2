@@ -22,11 +22,13 @@
 - Curseurs (sliders) pour un ajustement visuel et intuitif
 - Affichage en temps réel de la valeur sélectionnée
 - Plages de valeurs logiques pour éviter les erreurs
+- Parsing correct des valeurs avec unités (12px, 32px, etc.)
 
 ## Fichiers modifiés
 
 1. **src/lib/designHelpers.ts**
    - Fonction `getButtonStyles()` retourne maintenant les styles avec les bonnes valeurs par défaut
+   - Retourne borderRadius et padding pour application inline
 
 2. **src/components/PageBuilder/DesignCategories.tsx**
    - Ajout du composant `SliderField` pour les curseurs
@@ -34,24 +36,36 @@
      - Rayon des coins (0-50px)
      - Padding horizontal (8-64px)
      - Padding vertical (4-32px)
+   - Parsing correct des valeurs CSS avec `.replace('px', '')` pour extraire les nombres
 
-3. **src/components/PageBuilder/Widgets/CTAWidget.tsx**
-   - Ajout de `[&]:!rounded-none [&]:!p-0` aux classes des boutons
-   - Garantit que les styles inline ont la priorité
+3. **Widgets mis à jour avec getButtonStyles():**
+   - **CTAWidget.tsx**: Tous les boutons (primaire et secondaire)
+   - **HeroWidget.tsx**: Import de `getButtonStyles`, tous les boutons dans toutes les variantes
+   - **NewsletterWidget.tsx**: Tous les boutons dans les 4 variantes (centered, split, inline, card)
+   - **StatsWidget.tsx**: Bouton dans la variante split
+   - **WidgetButton.tsx**: Composant réutilisable
 
-4. **src/components/PageBuilder/WidgetButton.tsx**
-   - Composant réutilisable avec les mêmes corrections
-   - Prêt à être utilisé dans d'autres widgets
+4. **Classes CSS appliquées:**
+   - Ajout systématique de `[&]:!rounded-none [&]:!p-0` pour neutraliser Tailwind
+   - Conservation des autres classes (transitions, hover effects, etc.)
 
 ## Utilisation
 
 Les curseurs sont maintenant disponibles dans le panneau "Boutons" du page builder:
 
 1. **Rayon des coins**: Ajustez de 0px (carré) à 50px (très arrondi)
-2. **Padding horizontal**: Contrôlez la largeur du bouton (8-64px)
-3. **Padding vertical**: Contrôlez la hauteur du bouton (4-32px)
+2. **Padding horizontal**: Contrôlez la largeur du bouton (8-64px, pas de 4px)
+3. **Padding vertical**: Contrôlez la hauteur du bouton (4-32px, pas de 2px)
 
 Les valeurs sont appliquées en temps réel et stockées dans la base de données.
+
+### Comment ça fonctionne
+
+1. **Parsing des valeurs**: Les valeurs CSS comme "12px" ou "32px" sont parsées avec `.replace('px', '')` pour extraire le nombre
+2. **Curseurs synchronisés**: Les curseurs reflètent toujours la valeur actuelle du design
+3. **Application inline**: Les styles sont appliqués via `style={buttonStyle}` avec les valeurs de `getButtonStyles(section)`
+4. **Override Tailwind**: Les classes `[&]:!rounded-none [&]:!p-0` forcent la réinitialisation des styles Tailwind
+5. **Priorité CSS**: Les styles inline ont maintenant la priorité grâce à `!important` dans les classes
 
 ## Options grisées par widget
 

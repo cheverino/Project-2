@@ -1,5 +1,6 @@
 import { Mail, Send } from 'lucide-react';
 import { PageBuilderSection } from '../../../lib/pageBuilderTypes';
+import { getButtonStyles } from '../../../lib/designHelpers';
 
 interface NewsletterWidgetProps {
   section: PageBuilderSection;
@@ -15,6 +16,7 @@ export default function NewsletterWidget({ section }: NewsletterWidgetProps) {
 
   const headingStyle = headingColor ? { color: headingColor } : undefined;
   const textStyle = textColor ? { color: textColor } : undefined;
+  const buttonStyle: React.CSSProperties = getButtonStyles(section);
 
   const renderCentered = () => (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -49,8 +51,8 @@ export default function NewsletterWidget({ section }: NewsletterWidgetProps) {
           />
           <button
             type="submit"
-            className="btn btn-primary px-8 py-4 rounded-xl font-semibold whitespace-nowrap transition-all hover:shadow-lg flex items-center justify-center"
-            style={accentColor ? { backgroundColor: accentColor, color: '#ffffff' } : undefined}
+            className="btn btn-primary [&]:!rounded-none [&]:!p-0 font-semibold whitespace-nowrap transition-all hover:shadow-lg flex items-center justify-center"
+            style={buttonStyle}
           >
             <Send className="w-5 h-5 mr-2" />
             {buttonText || 'Subscribe'}
@@ -94,8 +96,8 @@ export default function NewsletterWidget({ section }: NewsletterWidgetProps) {
             />
             <button
               type="submit"
-              className="btn btn-primary w-full sm:w-auto px-8 py-4 rounded-xl font-semibold transition-all hover:shadow-lg flex items-center justify-center"
-              style={accentColor ? { backgroundColor: accentColor, color: '#ffffff' } : undefined}
+              className="btn btn-primary [&]:!rounded-none [&]:!p-0 w-full sm:w-auto font-semibold transition-all hover:shadow-lg flex items-center justify-center"
+              style={buttonStyle}
             >
               {buttonText || 'Subscribe Now'}
             </button>
@@ -152,8 +154,8 @@ export default function NewsletterWidget({ section }: NewsletterWidgetProps) {
             />
             <button
               type="submit"
-              className="btn btn-primary px-6 py-3 rounded-xl font-semibold whitespace-nowrap transition-all hover:shadow-lg"
-              style={accentColor ? { backgroundColor: accentColor, color: '#ffffff' } : undefined}
+              className="btn btn-primary [&]:!rounded-none [&]:!p-0 font-semibold whitespace-nowrap transition-all hover:shadow-lg"
+              style={buttonStyle}
             >
               {buttonText || 'Sign Up'}
             </button>
@@ -204,8 +206,8 @@ export default function NewsletterWidget({ section }: NewsletterWidgetProps) {
           </div>
           <button
             type="submit"
-            className="btn btn-primary w-full py-4 rounded-xl font-semibold text-lg transition-all hover:shadow-xl"
-            style={accentColor ? { backgroundColor: accentColor, color: '#ffffff' } : undefined}
+            className="btn btn-primary [&]:!rounded-none [&]:!p-0 w-full font-semibold text-lg transition-all hover:shadow-xl"
+            style={buttonStyle}
           >
             {buttonText || 'Subscribe'}
           </button>

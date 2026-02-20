@@ -197,7 +197,10 @@ export default function DesignCategories({ section, updateDesign }: DesignCatego
         />
         <SliderField
           label="Rayon des coins"
-          value={parseInt(section.design.button?.borderRadius || '12') || 12}
+          value={(() => {
+            const radius = section.design.button?.borderRadius || '12px';
+            return parseInt(radius.replace('px', '')) || 12;
+          })()}
           onChange={(value) => updateDesign('button', 'borderRadius', `${value}px`)}
           min={0}
           max={50}
@@ -208,7 +211,11 @@ export default function DesignCategories({ section, updateDesign }: DesignCatego
           <label className="block text-xs text-gray-600 mb-1">Padding horizontal</label>
           <SliderField
             label=""
-            value={parseInt((section.design.button?.padding || '12px 32px').split(' ')[1] || '32') || 32}
+            value={(() => {
+              const padding = section.design.button?.padding || '12px 32px';
+              const parts = padding.split(' ');
+              return parseInt((parts[1] || '32px').replace('px', '')) || 32;
+            })()}
             onChange={(value) => {
               const currentPadding = section.design.button?.padding || '12px 32px';
               const verticalPadding = currentPadding.split(' ')[0] || '12px';
@@ -224,7 +231,11 @@ export default function DesignCategories({ section, updateDesign }: DesignCatego
           <label className="block text-xs text-gray-600 mb-1">Padding vertical</label>
           <SliderField
             label=""
-            value={parseInt((section.design.button?.padding || '12px 32px').split(' ')[0] || '12') || 12}
+            value={(() => {
+              const padding = section.design.button?.padding || '12px 32px';
+              const parts = padding.split(' ');
+              return parseInt((parts[0] || '12px').replace('px', '')) || 12;
+            })()}
             onChange={(value) => {
               const currentPadding = section.design.button?.padding || '12px 32px';
               const horizontalPadding = currentPadding.split(' ')[1] || '32px';

@@ -94,8 +94,8 @@ export default function CTAWidget({ section }: CTAWidgetProps) {
         {secondaryCta && (
           <a
             href={secondaryLink || '#'}
-            className="btn btn-outline border-2 font-semibold text-neutral-content border-neutral-content"
-            style={{ ...headingStyle, borderColor: headingStyle.color, borderRadius: primaryButtonStyle.borderRadius }}
+            className="btn btn-outline border-2 font-semibold text-neutral-content border-neutral-content [&]:!rounded-none [&]:!p-0"
+            style={{ ...headingStyle, borderColor: headingStyle.color, borderRadius: primaryButtonStyle.borderRadius, padding: primaryButtonStyle.padding }}
           >
             {secondaryCta}
           </a>
