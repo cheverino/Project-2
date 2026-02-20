@@ -3,6 +3,7 @@ import { Settings, Palette, Code } from 'lucide-react';
 import { PageBuilderSection } from '../../lib/pageBuilderTypes';
 import { widgetLibrary } from '../../lib/widgetLibrary';
 import WidgetThemeSelector from './WidgetThemeSelector';
+import DesignCategories from './DesignCategories';
 import {
   HeroContentEditor,
   CTAContentEditor,
@@ -185,163 +186,13 @@ export default function PropertiesPanel({ section, onUpdateSection }: Properties
   };
 
   const renderDesignTab = () => {
-    if (section.type === 'hero') {
-      return (
-        <div className="space-y-6">
-          <WidgetThemeSelector section={section} onUpdateSection={onUpdateSection} />
-          <div className="border-t border-gray-200 pt-4">
-            <HeroAdvancedEditor section={section} updateDesign={updateDesign} />
-          </div>
-        </div>
-      );
-    }
-
     return (
-    <div className="space-y-6">
-      <WidgetThemeSelector section={section} onUpdateSection={onUpdateSection} />
-
-      <div className="border-t border-gray-200 pt-4">
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">Couleurs</h3>
-        <div className="space-y-3">
-          <div>
-            <label className="block text-xs text-gray-600 mb-1">Couleur titre</label>
-            <div className="flex items-center space-x-2">
-              <input
-                type="color"
-                value={section.design.typography?.headingColor || '#111827'}
-                onChange={(e) => updateDesign('typography', 'headingColor', e.target.value)}
-                className="w-12 h-10 rounded border border-gray-300"
-              />
-              <input
-                type="text"
-                value={section.design.typography?.headingColor || '#111827'}
-                onChange={(e) => updateDesign('typography', 'headingColor', e.target.value)}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs text-gray-600 mb-1">Couleur texte</label>
-            <div className="flex items-center space-x-2">
-              <input
-                type="color"
-                value={section.design.typography?.textColor || '#4B5563'}
-                onChange={(e) => updateDesign('typography', 'textColor', e.target.value)}
-                className="w-12 h-10 rounded border border-gray-300"
-              />
-              <input
-                type="text"
-                value={section.design.typography?.textColor || '#4B5563'}
-                onChange={(e) => updateDesign('typography', 'textColor', e.target.value)}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs text-gray-600 mb-1">Couleur bouton</label>
-            <div className="flex items-center space-x-2">
-              <input
-                type="color"
-                value={section.design.colors?.buttonBackground || '#000000'}
-                onChange={(e) => updateDesign('colors', 'buttonBackground', e.target.value)}
-                className="w-12 h-10 rounded border border-gray-300"
-              />
-              <input
-                type="text"
-                value={section.design.colors?.buttonBackground || '#000000'}
-                onChange={(e) => updateDesign('colors', 'buttonBackground', e.target.value)}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs text-gray-600 mb-1">Couleur texte bouton</label>
-            <div className="flex items-center space-x-2">
-              <input
-                type="color"
-                value={section.design.colors?.buttonText || '#ffffff'}
-                onChange={(e) => updateDesign('colors', 'buttonText', e.target.value)}
-                className="w-12 h-10 rounded border border-gray-300"
-              />
-              <input
-                type="text"
-                value={section.design.colors?.buttonText || '#ffffff'}
-                onChange={(e) => updateDesign('colors', 'buttonText', e.target.value)}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs text-gray-600 mb-1">Couleur bouton (hover)</label>
-            <div className="flex items-center space-x-2">
-              <input
-                type="color"
-                value={section.design.colors?.buttonBackgroundHover || '#1F2937'}
-                onChange={(e) => updateDesign('colors', 'buttonBackgroundHover', e.target.value)}
-                className="w-12 h-10 rounded border border-gray-300"
-              />
-              <input
-                type="text"
-                value={section.design.colors?.buttonBackgroundHover || '#1F2937'}
-                onChange={(e) => updateDesign('colors', 'buttonBackgroundHover', e.target.value)}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent"
-              />
-            </div>
-          </div>
+      <div className="space-y-6">
+        <WidgetThemeSelector section={section} onUpdateSection={onUpdateSection} />
+        <div className="border-t border-gray-200 pt-4">
+          <DesignCategories section={section} updateDesign={updateDesign} />
         </div>
       </div>
-
-      <div>
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">Arriere-plan</h3>
-        <div>
-          <label className="block text-xs text-gray-600 mb-1">Couleur</label>
-          <div className="flex items-center space-x-2">
-            <input
-              type="color"
-              value={section.design.background.value}
-              onChange={(e) => updateDesign('background', 'value', e.target.value)}
-              className="w-12 h-10 rounded border border-gray-300"
-            />
-            <input
-              type="text"
-              value={section.design.background.value}
-              onChange={(e) => updateDesign('background', 'value', e.target.value)}
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <h3 className="text-sm font-semibold text-gray-900 mb-3">Espacement</h3>
-        <div className="space-y-3">
-          <div>
-            <label className="block text-xs text-gray-600 mb-1">Padding haut</label>
-            <input
-              type="text"
-              value={section.design.spacing.paddingTop}
-              onChange={(e) => updateDesign('spacing', 'paddingTop', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent"
-              placeholder="ex: 80px"
-            />
-          </div>
-          <div>
-            <label className="block text-xs text-gray-600 mb-1">Padding bas</label>
-            <input
-              type="text"
-              value={section.design.spacing.paddingBottom}
-              onChange={(e) => updateDesign('spacing', 'paddingBottom', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-black focus:border-transparent"
-              placeholder="ex: 80px"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
     );
   };
 
